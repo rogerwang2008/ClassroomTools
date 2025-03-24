@@ -1,0 +1,40 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="CssUnknownProperty" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myCustomPropertiesEnabled" value="true" />
+      <option name="myIgnoreVendorSpecificProperties" value="false" />
+      <option name="myCustomPropertiesList">
+        <value>
+          <list size="1">
+            <item index="0" class="java.lang.String" itemvalue="themes" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="Eslint" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <value>
+          <list size="15">
+            <item index="0" class="java.lang.String" itemvalue="pydantic-settings" />
+            <item index="1" class="java.lang.String" itemvalue="fastapi-users" />
+            <item index="2" class="java.lang.String" itemvalue="PyJWT" />
+            <item index="3" class="java.lang.String" itemvalue="pydantic-extra-types" />
+            <item index="4" class="java.lang.String" itemvalue="phonenumbers" />
+            <item index="5" class="java.lang.String" itemvalue="jwt" />
+            <item index="6" class="java.lang.String" itemvalue="SQLAlchemy" />
+            <item index="7" class="java.lang.String" itemvalue="fastapi_users_db_sqlmodel" />
+            <item index="8" class="java.lang.String" itemvalue="StrEnum" />
+            <item index="9" class="java.lang.String" itemvalue="APScheduler" />
+            <item index="10" class="java.lang.String" itemvalue="aiostream" />
+            <item index="11" class="java.lang.String" itemvalue="python-ulid" />
+            <item index="12" class="java.lang.String" itemvalue="sqlmodel" />
+            <item index="13" class="java.lang.String" itemvalue="fastapi_limiter" />
+            <item index="14" class="java.lang.String" itemvalue="asyncmy" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
