@@ -1,8 +1,10 @@
 <script lang="ts">
+  import type { State } from "./states";
+
   interface Props {
     studentId: number,
     studentName: string,
-    state?: boolean | "disabled" | "unavailable",
+    state?: State,
   }
 
   let { studentId, studentName, state = false }: Props = $props();
