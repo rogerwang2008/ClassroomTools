@@ -3,14 +3,15 @@ import { type Persisted, persisted } from "svelte-persisted-store";
 import { readStudentsCsv } from "$lib/students-info/util";
 
 export interface Student {
-  id: number;
   name: string;
 }
 
-export const studentsInfo: Persisted<Student[]> = persisted("studentsInfo", []);
+export type StudentsRecord = Record<string, Student>;
+
+export const studentsInfo: Persisted<StudentsRecord> = persisted("studentsInfo", {});
 
 export const initStudentsInfo = async () => {
-  if (!get(studentsInfo).length) {
+  if (Object.keys(get(studentsInfo)).length === 0) {
     studentsInfo.set(await readStudentsCsv());
   }
 };

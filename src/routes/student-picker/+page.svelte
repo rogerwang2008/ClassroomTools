@@ -1,7 +1,8 @@
 <script lang="ts">
   import StudentCard from "./StudentCard.svelte";
   import { onMount, onDestroy } from "svelte";
-  import { initStudentsStates, studentsStates } from "./states";
+  import { initStudentsStates, resetStudentsStates, studentsStates } from "./states";
+  import { chooseStudentRandomly } from "./functions";
 
   let mainElement: HTMLElement;
   let studentCardFatherElement: HTMLElement;
@@ -17,8 +18,12 @@
             continue;
           }
           console.log(mainElement.clientWidth, studentCardFatherElement.clientWidth);
-          if (mainElement.clientWidth / mainElement.clientHeight > studentCardFatherElement.clientWidth / studentCardFatherElement.clientHeight) {
-            studentCardFatherZoom = mainElement.clientHeight / studentCardFatherElement.clientHeight;
+          if (
+            mainElement.clientWidth / mainElement.clientHeight >
+            studentCardFatherElement.clientWidth / studentCardFatherElement.clientHeight
+          ) {
+            studentCardFatherZoom =
+              mainElement.clientHeight / studentCardFatherElement.clientHeight;
           } else {
             studentCardFatherZoom = mainElement.clientWidth / studentCardFatherElement.clientWidth;
           }
@@ -32,23 +37,38 @@
   });
 
   onDestroy(() => {
-      if (studentCardFatherObserver) studentCardFatherObserver.disconnect();
-    },
-  );
-
+    if (studentCardFatherObserver) studentCardFatherObserver.disconnect();
+  });
 </script>
-<div class="flex flex-col h-full">
-  <div class="navbar flex-none"></div>
+
+<div class="flex h-full flex-col">
+  <div class="navbar flex-none">
+    <button
+      class="btn btn-primary"
+      onclick={() => {
+        chooseStudentRandomly($studentsStates);
+      }}
+      >抽取学生
+    </button>
+    <button
+      class="btn"
+      onclick={() => {
+        resetStudentsStates();
+      }}
+      >重置
+    </button>
+  </div>
   <main bind:this={mainElement} class="flex grow">
-    <div bind:this={studentCardFatherElement}
-         class="inline-grid grid-cols-[repeat(8,minmax(min-content,max-content))] gap-2 m-auto p-2 w-auto"
-         style="zoom: {studentCardFatherZoom}"
+    <div
+      bind:this={studentCardFatherElement}
+      class="m-auto inline-grid w-auto grid-cols-[repeat(8,minmax(min-content,max-content))] gap-2 p-4"
+      style="zoom: {studentCardFatherZoom}"
     >
-      {#each $studentsStates as studentState (studentState.id)}
-        <StudentCard studentId={studentState.id} studentName={studentState.name}
-                     state={studentState.state}></StudentCard>
-      {/each}
+      {#if $studentsStates !== undefined}
+        {#each Object.entries($studentsStates) as [id, studentState] (id)}
+          <StudentCard studentId={id} {studentState}></StudentCard>
+        {/each}
+      {/if}
     </div>
   </main>
-
 </div>

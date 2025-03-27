@@ -1,6 +1,6 @@
 import Papa from "papaparse";
 
-import type { Student } from ".";
+import type { Student, StudentsRecord } from ".";
 
 export const readStudentsCsv = async () => {
   const response = await fetch( "/config/students.csv");
@@ -8,9 +8,13 @@ export const readStudentsCsv = async () => {
     header: true,
     skipEmptyLines: true,
   });
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return parsedCsv.data.map((row: any) => ({
-    id: parseInt(row.id),
-    name: row.name,
-  })) as Student[];
+  const studentsRecord: StudentsRecord = parsedCsv.data.reduce(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (acc: Record<string, Student>, row: any) => {
+      acc[row.id] = row;
+      return acc;
+    },
+    {}
+  );
+  return studentsRecord;
 };
