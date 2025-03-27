@@ -1,4 +1,4 @@
-import { deselectStudent, selectStudent, type StudentsStatesRecord } from "./states";
+import { deselectStudent, resetStudentsStates, selectStudent, type StudentsStatesRecord } from "./states";
 
 let lastChosenId: string | undefined;
 
@@ -21,3 +21,9 @@ export const chooseStudentRandomly = (studentsStates: StudentsStatesRecord) => {
   }
   return selectableIds[selectableIds.length - 1];
 };
+
+
+export const resetPicker = () => {
+  resetStudentsStates();
+  lastChosenId = undefined;
+}
