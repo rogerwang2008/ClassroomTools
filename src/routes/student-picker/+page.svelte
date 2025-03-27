@@ -2,8 +2,9 @@
   import StudentCard from "./StudentCard.svelte";
   import { onMount, onDestroy } from "svelte";
   import { initStudentsStates, studentsStates } from "./states";
-  import { chooseStudentRandomly, resetPicker } from "./functions";
+  import { chooseStudentRandomly, resetCompletely, resetStates } from "./functions";
   import { pickerConfig, pickerState } from "./config";
+  import { studentsInfo } from "$lib/students-info";
 
   let mainElement: HTMLElement;
   let studentCardFatherElement: HTMLElement;
@@ -12,13 +13,14 @@
   let studentCardFatherObserver: ResizeObserver;
 
   onMount(async () => {
+    await initStudentsStates();
+
     if (mainElement && studentCardFatherElement) {
       studentCardFatherObserver = new ResizeObserver((entries) => {
         for (let entry of entries) {
           if (!entry.contentBoxSize) {
             continue;
           }
-          console.log(mainElement.clientWidth, studentCardFatherElement.clientWidth);
           if (
             mainElement.clientWidth / mainElement.clientHeight >
             studentCardFatherElement.clientWidth / studentCardFatherElement.clientHeight
@@ -32,9 +34,6 @@
       });
       studentCardFatherObserver.observe(mainElement);
     }
-
-    await initStudentsStates();
-    console.log($studentsStates);
   });
 
   onDestroy(() => {
@@ -46,18 +45,10 @@
   <div class="navbar flex-none gap-2">
     <button
       class="btn btn-primary"
-      onclick={() => {
-        chooseStudentRandomly($studentsStates);
-      }}
+      onclick={chooseStudentRandomly}
       >抽取学生
     </button>
-    <button
-      class="btn"
-      onclick={() => {
-        resetPicker();
-      }}
-      >重置
-    </button>
+    <button class="btn" onclick={resetStates}>重置</button>
     <label>
       <input
         type="checkbox"
@@ -75,6 +66,7 @@
       />
       设置模式
     </label>
+    <button class="btn btn-warning" onclick={resetCompletely}>完全重置</button>
   </div>
   <main bind:this={mainElement} class="flex flex-1 overflow-hidden">
     <div
@@ -82,8 +74,8 @@
       class="m-auto inline-grid w-auto grid-cols-[repeat(8,minmax(min-content,max-content))] gap-2 p-4"
       style="zoom: {studentCardFatherZoom}"
     >
-      {#each Object.entries($studentsStates) as [id, studentState] (id)}
-        <StudentCard studentId={id} {studentState}></StudentCard>
+      {#each Object.keys($studentsInfo) as studentId (studentId)}
+        <StudentCard {studentId}></StudentCard>
       {/each}
     </div>
   </main>

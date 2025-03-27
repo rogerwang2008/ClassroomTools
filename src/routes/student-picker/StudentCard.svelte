@@ -1,27 +1,29 @@
 <script lang="ts">
-  import { studentsStates, type StudentState, type StudentsStatesRecord } from "./states";
+  import { studentsStates, type StudentsStatesRecord } from "./states";
   import { pickerState } from "./config";
+  import { studentsInfo } from "$lib/students-info";
 
   interface Props {
     studentId: keyof StudentsStatesRecord;
-    studentState: StudentState;
   }
 
-  let { studentId, studentState }: Props = $props();
+  let { studentId }: Props = $props();
 </script>
 
 <div
-  class="card h-24 w-32 items-center justify-center select-none
-  {studentState.state === true
-    ? 'bg-success text-success-content font-bold'
-    : studentState.state === 'disabled'
-      ? 'bg-base-300 text-base-content'
-      : studentState.state === 'unavailable'
-        ? 'bg-base-100 text-base-content/80'
+  class="card h-24 w-32 items-center justify-center transition select-none
+  {$studentsStates[studentId].currentlyChosen
+    ? 'bg-success text-success-content z-10 font-bold' +
+      (!$pickerState.configureMode ? ' scale-110' : '')
+    : !$studentsStates[studentId].canChoose
+      ? 'bg-base-100 text-base-content/80'
+      : $studentsStates[studentId].alreadyChosen
+        ? 'bg-base-300 text-base-content'
         : 'bg-info text-info-content'}"
 >
   {#if $pickerState.configureMode}
     <div class="text-xs">
+      <div class="font-bold">{studentId} {$studentsInfo[studentId].name}</div>
       <label>
         权重
         <input
@@ -34,6 +36,6 @@
     </div>
   {:else}
     <span class="text-3xl">{studentId}</span>
-    <span class="text-xl">{studentState.name}</span>
+    <span class="text-xl">{$studentsInfo[studentId].name}</span>
   {/if}
 </div>

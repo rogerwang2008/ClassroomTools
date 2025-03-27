@@ -1,16 +1,18 @@
 import { persisted, type Persisted } from "svelte-persisted-store";
 import { get } from "svelte/store";
-import { initStudentsInfo, type Student, studentsInfo } from "$lib/students-info";
+import { initStudentsInfo, studentsInfo, type StudentsRecord } from "$lib/students-info";
 import { pickerConfig } from "./config";
 
 export type State = boolean | "disabled" | "unavailable";
 
-export interface StudentState extends Student {
-  state: State;
+export interface StudentState {
+  currentlyChosen: boolean;
+  alreadyChosen: boolean;
+  canChoose: boolean;
   weight: number;
 }
 
-export type StudentsStatesRecord = Record<string, StudentState>;
+export type StudentsStatesRecord = Record<keyof StudentsRecord, StudentState>;
 
 export const studentsStates: Persisted<StudentsStatesRecord> = persisted(
   "student-picker/studentsStates",
@@ -18,19 +20,25 @@ export const studentsStates: Persisted<StudentsStatesRecord> = persisted(
 );
 
 export const initStudentsStates = async () => {
-  await initStudentsInfo();
+  if (Object.keys(get(studentsInfo)).length === 0) {
+    await initStudentsInfo();
+    studentsStates.reset();
+  }
   if (Object.keys(get(studentsStates)).length === 0) {
-    const initStates = get(studentsInfo)!;
-    // @ts-expect-error: TS2345
-    Object.values(initStates).forEach((student: StudentState) => {
-      student.state = false;
-      student.weight = 1;
+    const initStates: StudentsStatesRecord = {};
+    Object.keys(get(studentsInfo)).forEach((id) => {
+      initStates[id] = {
+        currentlyChosen: false,
+        alreadyChosen: false,
+        canChoose: true,
+        weight: 1,
+      };
     });
-    studentsStates.set(initStates as StudentsStatesRecord);
+    studentsStates.set(initStates);
     return;
   }
   for (const [key, student] of Object.entries(get(studentsStates)!)) {
-    if (student.state === true) {
+    if (student.currentlyChosen) {
       deselectStudent(key);
     }
   }
@@ -38,24 +46,28 @@ export const initStudentsStates = async () => {
 
 export const deselectStudent = (id: string) => {
   studentsStates.update((states) => {
-    states![id].state = get(pickerConfig).disableAfterChosen ? "disabled" : false;
+    if (states[id].currentlyChosen && get(pickerConfig).disableAfterChosen)
+      states[id].alreadyChosen = true;
+    states[id].currentlyChosen = false;
     return states;
   });
 };
 
 export const selectStudent = (id: string) => {
   studentsStates.update((states) => {
-    states![id].state = true;
+    if (!states[id].currentlyChosen && get(pickerConfig).disableAfterChosen)
+      states[id].alreadyChosen = true;
+    states[id].currentlyChosen = true;
     return states;
   });
 };
 
-export const resetStudentsStates = (resetUnavailable: boolean = false) => {
+export const resetChosenStates = (resetCanChoose: boolean = false) => {
   studentsStates.update((states) => {
     Object.values(states!).forEach((student: StudentState) => {
-      if (resetUnavailable || student.state !== "unavailable") {
-        student.state = false;
-      }
+      if (resetCanChoose) student.canChoose = true;
+      student.currentlyChosen = false;
+      student.alreadyChosen = false;
     });
     return states;
   });
