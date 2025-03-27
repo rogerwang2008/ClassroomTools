@@ -25,6 +25,7 @@ export const initStudentsStates = async () => {
     studentsStates.reset();
   }
   if (Object.keys(get(studentsStates)).length === 0) {
+    console.log("载入学生 states");
     const initStates: StudentsStatesRecord = {};
     Object.keys(get(studentsInfo)).forEach((id) => {
       initStates[id] = {
@@ -58,6 +59,16 @@ export const selectStudent = (id: string) => {
     if (!states[id].currentlyChosen && get(pickerConfig).disableAfterChosen)
       states[id].alreadyChosen = true;
     states[id].currentlyChosen = true;
+    return states;
+  });
+};
+
+export const changeAlreadyChosen = (id: string) => {
+  studentsStates.update((states) => {
+    if (states[id].canChoose) {
+      states[id].alreadyChosen = !states[id].alreadyChosen;
+      states[id].currentlyChosen = false;
+    }
     return states;
   });
 };

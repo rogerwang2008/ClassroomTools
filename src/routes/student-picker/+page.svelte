@@ -1,7 +1,7 @@
 <script lang="ts">
   import StudentCard from "./StudentCard.svelte";
   import { onMount, onDestroy } from "svelte";
-  import { initStudentsStates, studentsStates } from "./states";
+  import { initStudentsStates } from "./states";
   import { chooseStudentRandomly, resetCompletely, resetStates } from "./functions";
   import { pickerConfig, pickerState } from "./config";
   import { studentsInfo } from "$lib/students-info";
@@ -43,11 +43,7 @@
 
 <div class="flex h-full flex-col">
   <div class="navbar flex-none gap-2">
-    <button
-      class="btn btn-primary"
-      onclick={chooseStudentRandomly}
-      >抽取学生
-    </button>
+    <button class="btn btn-primary" onclick={chooseStudentRandomly}>抽取学生 </button>
     <button class="btn" onclick={resetStates}>重置</button>
     <label>
       <input
@@ -64,9 +60,11 @@
         class="toggle toggle-primary"
         bind:checked={$pickerState.configureMode}
       />
-      设置模式
+      配置
     </label>
-    <button class="btn btn-warning" onclick={resetCompletely}>完全重置</button>
+    <div class="tooltip tooltip-left" data-tip="从 CSV 刷新学生信息并重置所有学生状态">
+      <button class="btn btn-warning" onclick={resetCompletely}>完全重置</button>
+    </div>
   </div>
   <main bind:this={mainElement} class="flex flex-1 overflow-hidden">
     <div

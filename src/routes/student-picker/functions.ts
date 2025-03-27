@@ -33,4 +33,5 @@ export const resetStates = async () => {
 export const resetCompletely = async () => {
   studentsInfo.reset();
   await invalidateAll();
+  location.reload();
 };
