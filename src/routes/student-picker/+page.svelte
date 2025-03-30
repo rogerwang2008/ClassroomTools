@@ -1,7 +1,7 @@
 <script lang="ts">
   import StudentCard from "./StudentCard.svelte";
   import { onMount, onDestroy } from "svelte";
-  import { studentsInfo } from "$lib/students-info";
+  import { studentsStates } from "./states";
   import { ttsVoices } from "$lib/tts";
   import { initStudentsStates } from "./states";
   import { chooseStudentRandomly, resetCompletely, resetStates } from "./functions";
@@ -146,7 +146,7 @@
       class="m-auto inline-grid w-auto grid-cols-[repeat(8,minmax(min-content,max-content))] gap-2 p-4"
       style="zoom: {studentCardFatherZoom}"
     >
-      {#each Object.keys($studentsInfo) as studentId (studentId)}
+      {#each Object.keys($studentsStates) as studentId (studentId)}
         <StudentCard {studentId}></StudentCard>
       {/each}
     </div>

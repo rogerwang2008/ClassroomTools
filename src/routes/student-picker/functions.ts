@@ -46,7 +46,7 @@ export const chooseStudentRandomly = async () => {
       );
       break;
     case "human":
-      console.warn("Human mode not implemented yet. Not speaking")
+      console.warn("Human mode not implemented yet. Not speaking");
       break;
     default:
       throw new Error("Invalid speakMode");
@@ -60,6 +60,7 @@ export const resetStates = async () => {
 
 export const resetCompletely = async () => {
   studentsInfo.reset();
+  studentsStates.reset();
   pickerConfig.reset();
   await invalidateAll();
   location.reload();
