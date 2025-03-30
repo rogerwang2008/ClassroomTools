@@ -9,6 +9,8 @@ export interface StudentState {
   currentlyChosen: boolean;
   alreadyChosen: boolean;
   canChoose: boolean;
+  totalTimesChosen: number;
+  roundTimesChosen: number;
   weight: number;
 }
 
@@ -32,6 +34,8 @@ export const initStudentsStates = async () => {
         currentlyChosen: false,
         alreadyChosen: false,
         canChoose: true,
+        totalTimesChosen: 0,
+        roundTimesChosen: 0,
         weight: 1,
       };
     });
@@ -59,6 +63,8 @@ export const selectStudent = (id: string) => {
     if (!states[id].currentlyChosen && get(pickerConfig).disableAfterChosen)
       states[id].alreadyChosen = true;
     states[id].currentlyChosen = true;
+    states[id].totalTimesChosen++;
+    states[id].roundTimesChosen++;
     return states;
   });
 };
@@ -73,12 +79,14 @@ export const changeAlreadyChosen = (id: string) => {
   });
 };
 
-export const resetChosenStates = (resetCanChoose: boolean = false) => {
+export const resetChosenStates = (resetCanChoose: boolean = false, resetTotalTimesChosen: boolean = false) => {
   studentsStates.update((states) => {
     Object.values(states!).forEach((student: StudentState) => {
       if (resetCanChoose) student.canChoose = true;
       student.currentlyChosen = false;
       student.alreadyChosen = false;
+      student.roundTimesChosen = 0;
+      if (resetTotalTimesChosen) student.totalTimesChosen = 0;
     });
     return states;
   });

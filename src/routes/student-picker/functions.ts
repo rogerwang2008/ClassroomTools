@@ -43,6 +43,8 @@ export const chooseStudentRandomly = async () => {
         get(pickerConfig).ttsConfig.voiceName,
         get(pickerConfig).ttsConfig.pitch,
         get(pickerConfig).ttsConfig.rate,
+        get(studentsInfo)[lastChosenId].canBeHumanMachine &&
+          (get(studentsStates)[lastChosenId].totalTimesChosen > 1 || Math.random() <= 0.03),
       );
       break;
     case "human":
@@ -53,8 +55,11 @@ export const chooseStudentRandomly = async () => {
   }
 };
 
-export const resetStates = async () => {
-  resetChosenStates();
+export const resetStates = async (
+  resetCanChoose: boolean = false,
+  resetTotalTimesChosen: boolean = false,
+) => {
+  resetChosenStates(resetCanChoose, resetTotalTimesChosen);
   lastChosenId = undefined;
 };
 

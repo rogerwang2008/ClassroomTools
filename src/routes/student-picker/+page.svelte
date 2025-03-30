@@ -47,7 +47,6 @@
 <div class="flex h-full flex-col">
   <div class="navbar flex-none gap-2">
     <button class="btn btn-primary" onclick={chooseStudentRandomly}>抽取学生</button>
-    <button class="btn" onclick={resetStates}>重置</button>
     <label>
       <input
         type="checkbox"
@@ -55,6 +54,12 @@
         bind:checked={$pickerConfig.disableAfterChosen}
       />
       避免重复
+    </label>
+    <button class="btn" onclick={() => resetStates($pickerState.resetTotalTimesChosen)}>重置</button
+    >
+    <label>
+      <input type="checkbox" class="checkbox" bind:checked={$pickerState.resetTotalTimesChosen} />
+      重置统计数据
     </label>
     <div class="flex-1"></div>
     <label>

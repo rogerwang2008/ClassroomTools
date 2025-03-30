@@ -4,6 +4,8 @@ import { readStudentsCsv } from "$lib/students-info/util";
 
 export interface Student {
   name: string;
+  gender: "male" | "female";
+  canBeHumanMachine: boolean;
   rhymeVerses: string[] | undefined;
 }
 

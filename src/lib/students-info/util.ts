@@ -13,6 +13,7 @@ export const readStudentsCsv = async () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (acc: Record<string, Student>, row: any) => {
       if (row.rhymeVerses) row.rhymeVerses = row.rhymeVerses.split("|");
+      row.canBeHumanMachine = row.canBeHumanMachine === "true";
       acc[row.id] = row;
       return acc;
     },
