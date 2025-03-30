@@ -59,7 +59,7 @@
       </div>
     </div>
   {:else}
-    <span class="text-3xl">{studentId}</span>
-    <span class="text-xl">{$studentsInfo[studentId].name}</span>
+    <span class="text-4xl">{studentId}</span>
+    <span class="text-2xl">{$studentsInfo[studentId].name}</span>
   {/if}
 </button>
