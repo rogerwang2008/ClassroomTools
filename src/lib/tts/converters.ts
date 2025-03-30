@@ -24,7 +24,6 @@ export const namePronunciationFix = (name: string) => {
   return newName;
 };
 
-
 // noinspection NonAsciiCharacters
 const versePronunciationRecord = {
   天姥连天向天横: "天母连天向天横",
@@ -32,12 +31,12 @@ const versePronunciationRecord = {
   问渠那得清如许: "问渠哪得清如许",
   笑谈渴饮匈奴血: "笑谈渴饮匈奴谑",
   斗酒十千恣欢谑: "抖酒十千恣欢谑",
-}
+  今日听君歌一曲: "今日听君歌一娶",
+};
 export const versePronunciationFix = (verse: string) => {
   // @ts-expect-error TS7053
   return versePronunciationRecord[verse] || verse;
-}
-
+};
 
 const chineseDigits = "零一二三四五六七八九十";
 /**

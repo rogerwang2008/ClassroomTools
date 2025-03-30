@@ -55,8 +55,9 @@
       />
       避免重复
     </label>
-    <button class="btn" onclick={() => resetStates($pickerState.resetTotalTimesChosen)}>重置</button
-    >
+    <button class="btn" onclick={() => resetStates($pickerState.resetTotalTimesChosen)}
+      >重置
+    </button>
     <label>
       <input type="checkbox" class="checkbox" bind:checked={$pickerState.resetTotalTimesChosen} />
       重置统计数据
@@ -83,7 +84,7 @@
         <select bind:value={$pickerConfig.speakMode} class="select">
           <option value={null}>不播报</option>
           <option value="tts">机器朗读</option>
-          <option value="ttsVerse">机器朗读（带诗词）</option>
+          <option value="ttsVerse">机器朗读（带诗句）</option>
           <option value="human" disabled>甄仁基朗读（暂未实现）</option>
         </select>
         {#if $pickerConfig.speakMode === "tts" || $pickerConfig.speakMode === "ttsVerse"}
@@ -149,7 +150,7 @@
     <div
       bind:this={studentCardFatherElement}
       class="m-auto inline-grid w-auto grid-cols-[repeat(8,minmax(min-content,max-content))] gap-2 p-4"
-      style="zoom: {studentCardFatherZoom}"
+      style:zoom={studentCardFatherZoom}
     >
       {#each Object.keys($studentsStates) as studentId (studentId)}
         <StudentCard {studentId}></StudentCard>
@@ -157,3 +158,10 @@
     </div>
   </main>
 </div>
+
+<style>
+  :global(html, body) {
+    overflow: hidden;
+    scrollbar-width: none;
+  }
+</style>
