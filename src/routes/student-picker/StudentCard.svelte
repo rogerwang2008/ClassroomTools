@@ -34,7 +34,7 @@
         权重
         <input
           type="number"
-          class="input input-xs w-20"
+          class="input input-xs w-20 text-base-content"
           bind:value={$studentsStates[studentId].weight}
           min="0"
         />

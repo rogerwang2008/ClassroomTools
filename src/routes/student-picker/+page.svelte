@@ -1,16 +1,19 @@
 <script lang="ts">
   import StudentCard from "./StudentCard.svelte";
   import { onMount, onDestroy } from "svelte";
+  import { studentsInfo } from "$lib/students-info";
+  import { ttsVoices } from "$lib/tts";
   import { initStudentsStates } from "./states";
   import { chooseStudentRandomly, resetCompletely, resetStates } from "./functions";
   import { pickerConfig, pickerState } from "./config";
-  import { studentsInfo } from "$lib/students-info";
 
   let mainElement: HTMLElement;
   let studentCardFatherElement: HTMLElement;
   let studentCardFatherZoom: number = $state(1);
 
   let studentCardFatherObserver: ResizeObserver;
+
+  let readConfigDialog: HTMLDialogElement | null = $state(null);
 
   onMount(async () => {
     await initStudentsStates();
@@ -43,7 +46,7 @@
 
 <div class="flex h-full flex-col">
   <div class="navbar flex-none gap-2">
-    <button class="btn btn-primary" onclick={chooseStudentRandomly}>抽取学生 </button>
+    <button class="btn btn-primary" onclick={chooseStudentRandomly}>抽取学生</button>
     <button class="btn" onclick={resetStates}>重置</button>
     <label>
       <input
@@ -62,9 +65,80 @@
       />
       配置
     </label>
+    <button
+      onclick={() => {
+        readConfigDialog?.showModal();
+      }}
+      class="btn"
+      >播报设置
+    </button>
+    <dialog bind:this={readConfigDialog} class="modal">
+      <div class="modal-box flex flex-col gap-4">
+        <h3 class="text-lg font-bold">播报设置</h3>
+        <select bind:value={$pickerConfig.speakMode} class="select">
+          <option value={null}>不播报</option>
+          <option value="tts">机器朗读</option>
+          <option value="ttsPoem">机器朗读（带诗词）</option>
+          <option value="human" disabled>甄仁基朗读（暂未实现）</option>
+        </select>
+        {#if $pickerConfig.speakMode === "tts" || $pickerConfig.speakMode === "ttsPoem"}
+          <label class="flex items-center gap-3">
+            <span class="flex-none">朗读者</span>
+            <select bind:value={$pickerConfig.ttsConfig.voiceName} class="select flex-1">
+              <option value={undefined}>默认</option>
+              {#each $ttsVoices.filter( (voice) => voice.lang.startsWith("zh"), ) as voice (voice.name)}
+                <option value={voice.name}>{voice.name} ({voice.lang})</option>
+              {/each}
+            </select>
+          </label>
+          <label class="flex items-center gap-3">
+            <span class="flex-none">语速</span>
+            <input
+              type="number"
+              bind:value={$pickerConfig.ttsConfig.rate}
+              min="0"
+              step="0.1"
+              class="input flex-1/5"
+            />
+            <input
+              type="range"
+              bind:value={$pickerConfig.ttsConfig.rate}
+              min="0.5"
+              max="2"
+              step="0.1"
+              class="range range-primary flex-4/5"
+            />
+          </label>
+          <label class="flex items-center gap-3">
+            <span class="flex-none">语调</span>
+            <input
+              type="number"
+              bind:value={$pickerConfig.ttsConfig.pitch}
+              min="0"
+              step="0.1"
+              class="input flex-1/5"
+            />
+            <input
+              type="range"
+              bind:value={$pickerConfig.ttsConfig.pitch}
+              min="0.5"
+              max="2"
+              step="0.1"
+              class="range range-primary flex-4/5"
+            />
+          </label>
+        {/if}
+        <div class="modal-action">
+          <form method="dialog">
+            <button class="btn btn-primary">确定</button>
+          </form>
+        </div>
+      </div>
+    </dialog>
     <div class="tooltip tooltip-left" data-tip="从 CSV 刷新学生信息并重置所有学生状态">
       <button class="btn btn-warning" onclick={resetCompletely}>完全重置</button>
     </div>
+    <button class="btn btn-primary" onclick={chooseStudentRandomly}>抽取学生</button>
   </div>
   <main bind:this={mainElement} class="flex flex-1 overflow-hidden">
     <div
