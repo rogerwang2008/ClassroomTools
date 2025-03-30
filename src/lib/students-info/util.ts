@@ -11,7 +11,7 @@ export const readStudentsCsv = async () => {
   const studentsRecord: StudentsRecord = parsedCsv.data.reduce(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (acc: Record<string, Student>, row: any) => {
-      if (row.rhymePoems) row.rhymePoems = row.rhymePoems.split(",");
+      if (row.rhymePoems) row.rhymePoems = row.rhymePoems.split("|");
       acc[row.id] = row;
       return acc;
     },
