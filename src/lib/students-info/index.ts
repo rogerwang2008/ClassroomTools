@@ -4,7 +4,7 @@ import { readStudentsCsv } from "$lib/students-info/util";
 
 export interface Student {
   name: string;
-  rhymePoems: string[] | undefined;
+  rhymeVerses: string[] | undefined;
 }
 
 export type StudentsRecord = Record<string, Student>;

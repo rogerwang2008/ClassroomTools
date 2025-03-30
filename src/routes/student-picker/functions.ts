@@ -3,7 +3,7 @@ import { invalidateAll } from "$app/navigation";
 import { studentsInfo } from "$lib/students-info";
 import { deselectStudent, resetChosenStates, selectStudent, studentsStates } from "./states";
 import { pickerConfig } from "./config";
-import { speakStudent, speakStudentPoem } from "$lib/students-speak/tts";
+import { speakStudent, speakStudentVerse } from "$lib/students-speak/tts";
 
 let lastChosenId: string | undefined;
 
@@ -37,8 +37,8 @@ export const chooseStudentRandomly = async () => {
         get(pickerConfig).ttsConfig.rate,
       );
       break;
-    case "ttsPoem":
-      speakStudentPoem(
+    case "ttsVerse":
+      speakStudentVerse(
         lastChosenId,
         get(pickerConfig).ttsConfig.voiceName,
         get(pickerConfig).ttsConfig.pitch,

@@ -78,10 +78,10 @@
         <select bind:value={$pickerConfig.speakMode} class="select">
           <option value={null}>不播报</option>
           <option value="tts">机器朗读</option>
-          <option value="ttsPoem">机器朗读（带诗词）</option>
+          <option value="ttsVerse">机器朗读（带诗词）</option>
           <option value="human" disabled>甄仁基朗读（暂未实现）</option>
         </select>
-        {#if $pickerConfig.speakMode === "tts" || $pickerConfig.speakMode === "ttsPoem"}
+        {#if $pickerConfig.speakMode === "tts" || $pickerConfig.speakMode === "ttsVerse"}
           <label class="flex items-center gap-3">
             <span class="flex-none">朗读者</span>
             <select bind:value={$pickerConfig.ttsConfig.voiceName} class="select flex-1">

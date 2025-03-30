@@ -3,7 +3,7 @@ import { writable, type Writable } from "svelte/store";
 
 export interface PickerConfig {
   disableAfterChosen: boolean;
-  speakMode: null | "tts" | "ttsPoem" | "human";
+  speakMode: null | "tts" | "ttsVerse" | "human";
   ttsConfig: {
     voiceName: string | undefined;
     pitch: number;
@@ -13,7 +13,7 @@ export interface PickerConfig {
 
 export const pickerConfig: Persisted<PickerConfig> = persisted("student-picker/config", {
   disableAfterChosen: true,
-  speakMode: "ttsPoem",
+  speakMode: "ttsVerse",
   ttsConfig: {
     voiceName: undefined,
     pitch: 1,
