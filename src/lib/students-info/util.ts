@@ -4,7 +4,7 @@ import {base} from "$app/paths";
 import type { Student, StudentsRecord } from ".";
 
 export const readStudentsCsv = async () => {
-  const response = await fetch(`${base}/config/students.csv`);
+  const response = await fetch(`${base}/students/students.csv`);
   const parsedCsv = Papa.parse(await response.text(), {
     header: true,
     skipEmptyLines: true,

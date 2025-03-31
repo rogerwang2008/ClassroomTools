@@ -23,4 +23,4 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
 # Config
-/static/config/students.csv
+/static/students/students.csv

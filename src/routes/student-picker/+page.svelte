@@ -153,9 +153,22 @@
       class="m-auto inline-grid w-auto grid-cols-[repeat(8,minmax(min-content,max-content))] gap-2 p-4"
       style:zoom={studentCardFatherZoom}
     >
-      {#each Object.keys($studentsStates) as studentId (studentId)}
-        <StudentCard {studentId}></StudentCard>
-      {/each}
+      {#if Object.keys($studentsStates).length}
+        {#each Object.keys($studentsStates) as studentId (studentId)}
+          <StudentCard {studentId}></StudentCard>
+        {/each}
+      {:else}
+        <div class="m-auto">
+          <p class="text-center">
+            <span class="text-lg">
+              如果长时间未显示学生卡片，请
+              <button onclick={() => location.reload()}>刷新页面</button>
+              或
+              <button onclick={resetCompletely}>完全重置</button>
+            </span>
+          </p>
+        </div>
+      {/if}
     </div>
   </main>
 </div>
