@@ -136,7 +136,8 @@
         {/if}
         <div class="modal-action">
           <form method="dialog">
-            <button class="btn btn-primary">确定</button>
+            <!-- svelte-ignore a11y_autofocus -->
+            <button autofocus class="btn btn-primary">确定</button>
           </form>
         </div>
       </div>
