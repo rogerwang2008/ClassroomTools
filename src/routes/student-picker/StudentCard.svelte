@@ -34,7 +34,7 @@
         权重
         <input
           type="number"
-          class="input input-xs w-20 text-base-content"
+          class="input input-xs text-base-content w-20"
           bind:value={$studentsStates[studentId].weight}
           min="0"
         />
@@ -56,6 +56,11 @@
           />
           选过
         </label>
+      </div>
+      <div>
+        <b>统计: </b>
+        本轮 {$studentsStates[studentId].roundTimesChosen}
+        总计 {$studentsStates[studentId].totalTimesChosen}
       </div>
     </div>
   {:else}
