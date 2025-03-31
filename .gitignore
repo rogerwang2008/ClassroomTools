@@ -22,5 +22,7 @@ Thumbs.db
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
-# Config
+# Static
 /static/students/students.csv
+/static/students/audio/*
+!/static/students/audio/README.md

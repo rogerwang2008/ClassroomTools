@@ -7,6 +7,12 @@ export interface Student {
   gender: "male" | "female";
   canBeHumanMachine: boolean;
   rhymeVerses: string[] | undefined;
+  audio: StudentAudioOfReader;
+}
+
+export interface StudentAudioOfReader {
+  audio: string[];
+  humanMachineAudio: string[];
 }
 
 export type StudentsRecord = Record<string, Student>;

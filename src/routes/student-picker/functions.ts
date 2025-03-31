@@ -4,8 +4,17 @@ import { studentsInfo } from "$lib/students-info";
 import { deselectStudent, resetChosenStates, selectStudent, studentsStates } from "./states";
 import { pickerConfig } from "./config";
 import { speakStudent, speakStudentVerse } from "$lib/students-speak/tts";
+import { playStudentAudio } from "$lib/students-speak/audio";
 
 let lastChosenId: string | undefined;
+
+const isHumanMachine = (id: string) => {
+  if (!get(studentsInfo)[id]) throw new Error(`Unknown student id: ${id}`);
+  return (
+    get(studentsInfo)[id].canBeHumanMachine &&
+    (get(studentsStates)[id].totalTimesChosen > 1 || Math.random() <= 0.03)
+  );
+};
 
 export const chooseStudentRandomly = async () => {
   if (lastChosenId !== undefined) deselectStudent(lastChosenId);
@@ -43,12 +52,16 @@ export const chooseStudentRandomly = async () => {
         get(pickerConfig).ttsConfig.voiceName,
         get(pickerConfig).ttsConfig.pitch,
         get(pickerConfig).ttsConfig.rate,
-        get(studentsInfo)[lastChosenId].canBeHumanMachine &&
-          (get(studentsStates)[lastChosenId].totalTimesChosen > 1 || Math.random() <= 0.03),
+        isHumanMachine(lastChosenId),
       );
       break;
-    case "human":
-      console.warn("Human mode not implemented yet. Not speaking");
+    case "audio":
+      playStudentAudio(
+        lastChosenId,
+        get(pickerConfig).audioConfig.rate,
+        get(pickerConfig).audioConfig.preservesPitch,
+        isHumanMachine(lastChosenId),
+      );
       break;
     default:
       throw new Error("Invalid speakMode");

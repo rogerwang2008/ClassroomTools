@@ -1,5 +1,5 @@
 import { derived, get, readable } from "svelte/store";
-import {browser} from "$app/environment"
+import { browser } from "$app/environment";
 
 const synth = browser ? window.speechSynthesis : undefined;
 

@@ -85,7 +85,7 @@
           <option value={null}>不播报</option>
           <option value="tts">机器朗读</option>
           <option value="ttsVerse">机器朗读（带诗句）</option>
-          <option value="human" disabled>甄仁基朗读（暂未实现）</option>
+          <option value="audio">甄仁基朗读</option>
         </select>
         {#if $pickerConfig.speakMode === "tts" || $pickerConfig.speakMode === "ttsVerse"}
           <label class="flex items-center gap-3">
@@ -132,6 +132,33 @@
               step="0.1"
               class="range range-primary flex-4/5"
             />
+          </label>
+        {:else if $pickerConfig.speakMode === "audio"}
+          <label class="flex items-center gap-3">
+            <span class="flex-none">倍速</span>
+            <input
+              type="number"
+              bind:value={$pickerConfig.audioConfig.rate}
+              min="0"
+              step="0.1"
+              class="input flex-1/5"
+            />
+            <input
+              type="range"
+              bind:value={$pickerConfig.audioConfig.rate}
+              min="0.1"
+              max="5"
+              step="0.1"
+              class="range range-primary flex-4/5"
+            />
+          </label>
+          <label class="flex items-center gap-3">
+            <input
+              type="checkbox"
+              bind:checked={$pickerConfig.audioConfig.preservesPitch}
+              class="checkbox checkbox-primary flex-none"
+            />
+            <span class="flex-none">保持音调</span>
           </label>
         {/if}
         <div class="modal-action">
